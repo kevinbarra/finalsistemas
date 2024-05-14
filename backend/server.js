@@ -1,7 +1,7 @@
 const express = require('express');
 const { Pool } = require('pg');
-const cors = require('cors');  // Importa CORS
-require('dotenv').config();  // Utiliza variables de entorno
+const cors = require('cors');
+require('dotenv').config(); // Utiliza variables de entorno
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -10,13 +10,13 @@ const port = process.env.PORT || 3000;
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
-        rejectUnauthorized: false
+        rejectUnauthorized: false // Necesario para conexiones seguras, ajustar según tus requisitos
     }
 });
 
 // Configura CORS
 app.use(cors({
-    origin: 'finalsistemas-production.up.railway.app'  // Reemplaza con la URL de tu frontend
+    origin: '*' // Ajusta esto para permitir solo ciertos orígenes si es necesario
 }));
 
 app.use(express.json());
@@ -24,7 +24,7 @@ app.use(express.json());
 // Ruta para obtener todos los productos
 app.get('/products', async (req, res) => {
     try {
-        const { rows } = await pool.query('SELECT * FROM products');
+        const { rows } = await pool.query('SELECT * FROM products'); // Asegúrate de que la tabla se llama 'products'
         res.json(rows);
     } catch (err) {
         console.error(err.message);
