@@ -1,5 +1,6 @@
 const express = require('express');
 const { Pool } = require('pg');
+const cors = require('cors');  // Importa CORS
 require('dotenv').config();  // Utiliza variables de entorno
 
 const app = express();
@@ -12,6 +13,11 @@ const pool = new Pool({
         rejectUnauthorized: false
     }
 });
+
+// Configura CORS
+app.use(cors({
+    origin: 'finalsistemas-production.up.railway.app'  // Reemplaza con la URL de tu frontend
+}));
 
 app.use(express.json());
 
